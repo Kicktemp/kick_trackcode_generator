@@ -23,6 +23,13 @@ fbq('init', '{{pixelid}}');
   export default {
     name: 'FacebookPixel',
 
+    props: {
+      cookiename: {
+        type: String,
+        required: true
+      }
+    },
+
     data() {
       return {
         pixelid: 'da',

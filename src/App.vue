@@ -1,27 +1,40 @@
 <template>
   <div id="app">
-    <ul class="nav">
-      <li>
-        <router-link to="/facebook">Facebook</router-link>
-      </li>
-      <li>
-        <router-link to="/google">Google</router-link>
-      </li>
-    </ul>
-    <p>{{cookiename}}</p>
-    <router-view></router-view>
-    <HelloWorld :cookiename="cookiename"/>
+    <Home/>
+    <select v-model="selected">
+      <option v-for="option in options" :key="option.value" v-bind:value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <FacebookPixel v-if="selected === 'facebook'" :cookiename="cookiename"/>
+    <GoogleAnalytics  v-if="selected === 'ga'" :cookiename="cookiename"/>
     <button v-on:click="copyCode">Übertragen</button>
   </div>
 </template>
 
 <script>
+import Home from './components/Home.vue'
+import FacebookPixel from './components/FacebookPixel.vue'
+import GoogleAnalytics from './components/GoogleAnalytics.vue'
+
 export default {
   name: 'app',
 
+  components: {
+    Home,
+    FacebookPixel,
+    GoogleAnalytics,
+  },
+
   data() {
     return {
-      cookiename: window.document.getElementById('kc_name').value
+      cookiename: window.document.getElementById('kc_name').value,
+      selected: '',
+      options: [
+        { text: 'Bitte wähle ein Template', value: '' },
+        { text: 'Facebook Pixel', value: 'facebook' },
+        { text: 'Google Analytics', value: 'ga' },
+      ]
     }
   },
 
